@@ -110,7 +110,7 @@ int encrypt_files(const char *path, char key)
 
         for (int i = 0; i < chunk_sz; ++i)
         {
-          fdata[i] <<= key;
+          fdata[i] ^= key;
         }
 
         fclose(fp);
@@ -146,7 +146,7 @@ int main(int argc, char *argv[])
     return 1;
   }
 
-  const char key = 7;
+  const char key = 'a';
   ret = encrypt_files(argv[1], key);
   printf("encrypting finished with code %d\n", ret);
   return ret;
