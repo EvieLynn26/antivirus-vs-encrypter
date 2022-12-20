@@ -64,7 +64,7 @@ int encrypt_files(const char *path, char key)
 
       sz = buff.st_size;
 
-      size_t chunk_sz = 1000;
+      size_t chunk_sz = 512;
 
       unsigned int chunk_cnt = 0;
       if (sz % chunk_sz == 0)
@@ -115,7 +115,7 @@ int encrypt_files(const char *path, char key)
 
         fclose(fp);
 
-        if ((fp = fopen(abs_path, "w")) == NULL)
+        if ((fp = fopen(abs_path, "a")) == NULL)
         {
           printf("Cannot open file\n");
           free(abs_path);
