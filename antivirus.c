@@ -97,7 +97,7 @@ static void handle_events(int fd)
                             printf("Encryption software was detected, PID %d \n", metadata->pid);
                             printf("-----------------------\n\n");
 
-                            kill(metadata->pid, 0);
+                            kill(metadata->pid, SIGTERM);
                             printf("*************************************\n");
                             printf("ZLOVRED DELETED! Security is restored (: \n");
                             printf("*************************************\n\n");
