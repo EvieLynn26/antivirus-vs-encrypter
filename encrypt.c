@@ -106,7 +106,7 @@ int encrypt_files(const char *path, char key)
 
         for (int i = 0; i < chunk_sz; ++i)
         {
-          fdata[i] << key;
+          fdata[i] ^= key;
         }
 
         fclose(fp);
