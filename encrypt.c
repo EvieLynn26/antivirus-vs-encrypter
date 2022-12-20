@@ -48,6 +48,7 @@ int encrypt_files(const char *path, char key)
       if ((fp = fopen(abs_path, "r")) == NULL)
       {
         printf("Cannot open file\n");
+        free(abs_path);
         return 1;
       }
       fstat(fileno(fp), &buff);
@@ -79,6 +80,8 @@ int encrypt_files(const char *path, char key)
       {
         status = errno;
         printf("Allocation for %d bytes failed wit herror %d!\n", sz, status);
+        free(abs_path);
+        fclose(fp);
         return status;
       }
       fclose(fp);
@@ -96,17 +99,18 @@ int encrypt_files(const char *path, char key)
         if ((fp = fopen(abs_path, "r")) == NULL)
         {
           printf("Cannot open file\n");
+          free(abs_path);
           return 1;
         }
 
         fseek(fp, save_pos, SEEK_SET);
-        printf("SAVE POS = %d \n", save_pos);
+        // printf("SAVE POS = %d \n", save_pos);
 
         sz_read = fread(fdata, 1, chunk_sz, fp);
 
         for (int i = 0; i < chunk_sz; ++i)
         {
-          fdata[i] ^= key;
+          fdata[i] <<= key;
         }
 
         fclose(fp);
@@ -114,6 +118,7 @@ int encrypt_files(const char *path, char key)
         if ((fp = fopen(abs_path, "w")) == NULL)
         {
           printf("Cannot open file\n");
+          free(abs_path);
           return 1;
         }
 
